@@ -1,0 +1,17 @@
+#!/bin/bash
+export zjjb=正在转接！
+select fav 退出此脚本 转接到长楠脚本 转接到云溪院云崽安装脚本 ; do
+  case $fav in
+      "退出此脚本")
+      exit;;
+      "转接到长楠脚本"
+      echo "$zjjb"
+      bash <(curl -sL https://gitee.com/fw-cn/Yunzai/raw/master/Yunzai-Bot-Shell.sh)
+      exit;;
+      "转接到云溪院云崽安装脚本")
+      echo "$zjjb"
+      bash <(curl -sL gitee.com/yunxiyuan/txyz/raw/tx/txyz)
+      exit;;
+  esac
+done
+

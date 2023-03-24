@@ -1,0 +1,120 @@
+#!/data/data/com.termux/files/usr/bin/bash
+txyz="1.0.7,停止更新,此为本地使用,开发者可自行更新"
+if [ ! -d "/data/data/com.termux" ] && [ "$(ps -ef | grep termux | grep -v grep)" = "" ]; then
+echo -e "\033[33m食不食油饼？\033[0m"
+    exit 1
+fi
+if [ ! -f "$PREFIX/bin/txyz" ]; then
+    curl -o $PREFIX/bin/txyz https://gitee.com/yunxiyuan/txyz/raw/tx/termux/txyz
+    chmod 777 $PREFIX/bin/txyz
+fi
+if [ ! -d "/data/data/com.termux/files/home/.txyz" ]; then
+mkdir /data/data/com.termux/files/home/.txyz
+    echo "echo '╭───────────────────╮
+│   系统管理txyz    │
+├───────────────────┤
+│ txyz -1 启动tmoe  │
+├───────────────────┤
+│ txyz -2 启动云溪院│
+├───────────────────┤
+│ txyz -3 启动国光  │
+├───────────────────┤
+│ txyz -4 启动系统  │
+╰───────────────────╯'" > /data/data/com.termux/files/home/.bashrc
+fi
+case "$1" in
+-1)
+if [ -f "/data/data/com.termux/files/home/.local/share/tmoe-linux/git/debian.sh" ]; then
+if [ "$phone" == "root" ]; then
+    tmoe c
+else
+    tmoe p
+fi
+else
+    sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/apt/termux-main stable main@' $PREFIX/etc/apt/sources.list
+    pkg update -y
+        awk -f <(curl -L l.tmoe.me/2.awk)
+    exit 1
+fi
+;;
+-2)
+if [ -f "/data/data/com.termux/files/home/ubuntu/txu" ]; then
+if [ ! -d "/data/data/com.termux/files/home/ubuntu/ubuntu-fs/root/Yunzai-Bot" ]; then
+if [[ ! -f /data/data/com.termux/files/home/ubuntu/ubuntu-fs/root/.yzi ]]; then 
+    echo "bash .yzi" >> /data/data/com.termux/files/home/ubuntu/ubuntu-fs/root/.profile
+    curl -o /data/data/com.termux/files/home/ubuntu/ubuntu-fs/root/.yzi https://gitee.com/yunxiyuan/txyz/raw/tx/termux/.yzi
+fi
+fi
+    bash /data/data/com.termux/files/home/ubuntu/txu
+    exit  1
+else
+    bash <(curl -sL gitee.com/yunxiyuan/txyz/raw/tx/termux/txu)
+    curl -o /data/data/com.termux/files/home/ubuntu/ubuntu-fs/root/.yzi https://gitee.com/yunxiyuan/txyz/raw/tx/termux/.yzi
+    echo "bash .yzi" >> /data/data/com.termux/files/home/ubuntu/ubuntu-fs/root/.profile
+    bash /data/data/com.termux/files/home/ubuntu/txu
+    exit 1
+fi
+;;
+-3)
+if [[ -f /data/data/com.termux/files/home/Termux-Linux/Ubuntu/start-ubuntu.sh ]]; then 
+if [ ! -d "/data/data/com.termux/files/home/Termux-Linux/Ubuntu/ubuntu-fs/root/Yunzai-Bot" ]; then
+if [[ ! -f /data/data/com.termux/files/home/Termux-Linux/Ubuntu/ubuntu-fs/root/.yzi ]]; then 
+    echo "bash .yzi" >> /data/data/com.termux/files/home/Termux-Linux/Ubuntu/ubuntu-fs/root/.profile
+    curl -o /data/data/com.termux/files/home/Termux-Linux/Ubuntu/ubuntu-fs/root/.yzi https://gitee.com/yunxiyuan/txyz/raw/tx/termux/.yzi
+fi
+fi 
+    bash /data/data/com.termux/files/home/Termux-Linux/Ubuntu/start-ubuntu.sh
+    exit  1
+else 
+    sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/apt/termux-main stable main@' $PREFIX/etc/apt/sources.list
+    pkg update -y
+    pkg install proot git python -y
+    git clone --depth=1 https://gitee.com/Le-niao/termux-install-linux.git
+    pushd termux-install-linux
+    echo 1|python termux-linux-install.py
+    curl -o /data/data/com.termux/files/home/Termux-Linux/Ubuntu/ubuntu-fs/root/.yzi https://gitee.com/yunxiyuan/txyz/raw/tx/termux/.yzi
+    echo "bash .yzi" >> /data/data/com.termux/files/home/Termux-Linux/Ubuntu/ubuntu-fs/root/.profile
+    bash ~/Termux-Linux/Ubuntu/start-ubuntu.sh
+    exit 1
+fi
+;;
+-4)
+if [ -f /Ubuntu/start/data/data/com.termux/files/home/.local/share/tmoe-linux/git/debian.sh ]; then
+if [ "$phone" == "root" ]; then
+    tmoe c
+else
+    tmoe p
+fi
+elif [ -f /data/data/com.termux/files/home/ubuntu/txu ]; then
+    bash /data/data/com.termux/files/home/ubuntu/txu
+elif [ -f /data/data/com.termux/files/home/Termux-Linux/Ubuntu/start-ubuntu.sh ]; then
+    bash /data/data/com.termux/files/home/Termux-Linux/Ubuntu/start-ubuntu.sh
+else
+    echo "没有你进来干什么？食不食有病？"
+fi
+;;
+-v)
+    echo "当前版本$txyz"
+;;
+*)
+    echo "╭───────────────╮
+│云溪院容器安装 │
+├─────┬─────────┤
+│  1  │  tmoe   │
+├─────┼─────────┤
+│  2  │ 云溪院  │
+├─────┼─────────┤
+│  3  │  国光   │
+├─────┼─────────┤
+│  4  │  启动   │
+╰─────┴─────────╯"
+read -p ":" text
+if [[ -z $text ]]; then
+    echo -e "\033[33m输入错误\033[0m" 
+    exit 1; 
+else 
+    txyz -$text;
+    exit 1 
+fi
+;;
+esac

@@ -1,0 +1,24 @@
+#!/bin/bash
+select fav in 退出脚本 卸载机器人 ; do
+   case $fav in
+       "退出脚本")
+            exit
+            pwshell
+            ;;
+       "卸载机器人"）
+            echo "警告！你正在尝试卸载机器人，你还有10秒的后悔时间！"
+            sleep 5s
+            echo "5s"
+            sleep 2s
+            echo "3s"
+            sleep 3s
+            echo "正在卸载机器人"
+            cd $HOME
+            ls
+            rm -rf Yunzai-Bot
+            exit;;
+   esac
+done
+          
+            
+  
